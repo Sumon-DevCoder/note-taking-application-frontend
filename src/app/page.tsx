@@ -10,6 +10,8 @@ export default function Home() {
   const [token, setToken] = useState("");
   const [user, setUser] = useState<any>(null);
   const [notes, setNotes] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   
   // Auth Form State
   const [isLogin, setIsLogin] = useState(true);
@@ -42,10 +44,12 @@ export default function Home() {
     }
   }, [token]);
 
-  const loadNotes = async () => {
+  const loadNotes = async (pageToLoad = currentPage) => {
     try {
-      const data = await fetchApi("/notes", "GET", null, token);
+      const data = await fetchApi(`/notes?page=${pageToLoad}&limit=6`, "GET", null, token);
       setNotes(data.data);
+      setCurrentPage(data.page || 1);
+      setTotalPages(data.pages || 1);
     } catch (err: any) {
       setError(err.message);
     }
@@ -63,7 +67,7 @@ export default function Home() {
       setEditingNote(null);
       setNewTitle("");
       setNewContent("");
-      loadNotes(); // Refresh notes
+      loadNotes(currentPage); // Refresh current page
     } catch (err: any) {
       alert(err.message);
     }
@@ -80,7 +84,7 @@ export default function Home() {
     if (!confirm("Are you sure you want to permanently delete this note?")) return;
     try {
       await fetchApi(`/notes/${id}`, "DELETE", null, token);
-      loadNotes(); // Refresh notes
+      loadNotes(currentPage); // Refresh current page
     } catch (err: any) {
       alert(err.message);
     }
@@ -275,6 +279,37 @@ export default function Home() {
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center mt-12 space-x-4">
+            <button 
+              disabled={currentPage === 1}
+              onClick={() => {
+                const prevPage = currentPage - 1;
+                setCurrentPage(prevPage);
+                loadNotes(prevPage);
+              }}
+              className="px-6 py-2 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-30 transition-all text-white font-medium border border-white/10"
+            >
+              Previous
+            </button>
+            <span className="text-gray-400 font-medium text-sm">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button 
+              disabled={currentPage === totalPages}
+              onClick={() => {
+                const nextPage = currentPage + 1;
+                setCurrentPage(nextPage);
+                loadNotes(nextPage);
+              }}
+              className="px-6 py-2 rounded-full bg-white/10 hover:bg-white/20 disabled:opacity-30 transition-all text-white font-medium border border-white/10"
+            >
+              Next
+            </button>
           </div>
         )}
 

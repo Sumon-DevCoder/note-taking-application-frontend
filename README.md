@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Secure Note-Taking UI (Frontend)
 
-## Getting Started
+This is the frontend application for the Secure Note-Taking project, built with **Next.js 15, React 19, and Tailwind CSS**. It features a stunning, modern **Glassmorphism** dark-mode design, prioritizing a premium user experience while maintaining seamless integration with the backend API.
 
-First, run the development server:
+## ✨ Key Features
+- **Modern UI/UX**: Premium glassmorphism aesthetics, responsive grids, and smooth micro-interactions.
+- **Rich Text Editing**: Integrated `react-quill-new` for full rich-text note creation (Bold, Italic, Code Blocks, etc.), fully compatible with React 19.
+- **Role-Based Rendering**: UI adapts based on the logged-in user's role (Admin badges vs. User badges).
+- **Secure Authentication**: Seamless login/registration flows with JWT securely stored and managed.
+- **Centralized API Management**: All backend communication routes through a centralized, token-injected `fetchApi` wrapper.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🛠️ Technology Stack
+- **Framework**: Next.js (App Router)
+- **Styling**: Tailwind CSS
+- **Editor**: React-Quill-New
+- **Language**: TypeScript (TSX)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ⚙️ Setup Instructions
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Prerequisites
+- Node.js installed
+- The Backend server must be running (usually on port 5001).
 
-## Learn More
+### Installation
+1. Clone the repository and navigate to the frontend folder:
+   ```bash
+   cd note-taking-application-frontend
+   npm install
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. Create a `.env.local` file in the root of the frontend folder:
+   ```env
+   NEXT_PUBLIC_API_URL=http://localhost:5001/api
+   ```
+   *(Note: Adjust the port if your backend is running on a different port).*
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📖 Usage Guide
+- **Register/Login**: Start by creating an account. If you need administrative privileges, use the auto-seeded backend credentials.
+- **Dashboard**: View your notes presented in a beautiful grid layout.
+- **Create Notes**: Use the *+ New Note* button to open the Rich Text Editor modal and compose formatted secrets.
+- **Admin View**: If logged in as an Admin, you will see a badge on every note indicating the role of the original author.
